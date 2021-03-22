@@ -8,7 +8,6 @@ from .models import RandomCity
 
 
 def post_city(request):
-    city = []
     CityFormset = formset_factory(CityForm)
     if request.method == 'GET':
         formset = CityFormset(request.GET or None)
@@ -16,13 +15,10 @@ def post_city(request):
         formset = CityFormset(request.POST)
         for form in formset:
             if form.is_valid():
-                print(form.cleaned_data)
-                city.append(form.cleaned_data)
-                print(city)
-                cleaned_city = form.cleaned_data.get('city')
-                print(form.cleaned_data.get('city'))
-                if city:
-                    RandomCity(city=cleaned_city).save()
+                for form in formset:
+                    city = form.cleaned_data.get('city')
+                    if city:
+                        RandomCity(city=city).save()
                 return redirect('/city/')
 
     return render(request, 'form.html', {'formset': formset})
