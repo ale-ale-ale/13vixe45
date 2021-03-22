@@ -1,0 +1,8 @@
+# Compiled Python bytecode
+*.py[cod]
+
+# JetBrains IDE
+.idea/
+
+# Databse
+db.sqlite3

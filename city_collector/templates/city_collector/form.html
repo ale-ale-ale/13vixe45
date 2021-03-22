@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+<!--    <script src="{% static 'formaction.js' %}"></script>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+</head>
+<body>
+<form id="post_city" method="post">
+    {% csrf_token %}
+    <div id="forms">
+        {{ formset }}
+    </div>
+    <button type="submit" form="post_city">Add another field</button>
+</form>
+
+</body>
+</html>
