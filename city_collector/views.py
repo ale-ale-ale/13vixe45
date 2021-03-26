@@ -1,36 +1,31 @@
 from django.shortcuts import render, redirect
-from django import forms
 
-from django.forms import BaseFormSet
-from django.forms import formset_factory
-from .forms import CityForm
-from .models import RandomCity
+from rest_framework.generics import ListAPIView
+
+from .forms import CityFormset
+from .models import SomeCity
+from .serializers import CitySerializer
 
 
 def post_city(request):
-    CityFormset = formset_factory(CityForm)
-    if request.method == 'GET':
-        formset = CityFormset(request.GET or None)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         formset = CityFormset(request.POST)
-        for form in formset:
-            if form.is_valid():
-                for form in formset:
-                    city = form.cleaned_data.get('city')
-                    if city:
-                        RandomCity(city=city).save()
-                return redirect('/city/')
+        if formset.is_valid():
+            for form in formset:
+                city = form.cleaned_data.get('city')
+                if city:
+                    SomeCity(city=city).save()
+            return redirect('/thanks/')
+    else:
+        formset = CityFormset()
 
-    return render(request, 'form.html', {'formset': formset})
-
-
-# class BaseCityFormset(BaseFormSet):
-#     def add_fields(self, form, index):
-#         super().add_fields(form, index)
-#         form.fields['city'] = forms.CharField(label=f'City {index}',
-#                                               widget=forms.TextInput(attrs={'placeholder': 'Enter random city here'}),
-#                                               max_length=30)
+    return render(request, 'city_collector/form.html', {'formset': formset})
 
 
-def list_of_cities(request):
-    pass
+def thanks(request):
+    return render(request, template_name='city_collector/thanks.html')
+
+
+class ListOfCities(ListAPIView):
+    serializer_class = CitySerializer
+    queryset = SomeCity.objects.all()

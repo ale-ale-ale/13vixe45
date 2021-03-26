@@ -1,8 +1,9 @@
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 
 
-class RandomCity(models.Model):
-    city = models.CharField(max_length=30)
+class SomeCity(models.Model):
+    city = JSONField()
 
     class Meta:
         db_table = 'city'

@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import SomeCity
+
+
+@admin.register(SomeCity)
+class GameAdmin(admin.ModelAdmin):
+    list_display = ('id', 'city')
+    list_filter = ('id',)

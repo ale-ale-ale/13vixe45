@@ -1,14 +1,11 @@
 from django.urls import path
 
-from django.conf import settings
-from django.conf.urls.static import static
-
-from .views import post_city
-from .views import list_of_cities
+from .views import post_city, thanks, ListOfCities
 
 app_name = 'city_collector'
 
 urlpatterns = [
-                  path('city/', post_city, name='city'),
-                  path('list_of_cities/', list_of_cities, name='list_of_cities')
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('city/', post_city, name='city'),
+    path('list_of_cities/', ListOfCities.as_view(), name='list_of_cities'),
+    path('thanks/', thanks, name='thanks'),
+]
